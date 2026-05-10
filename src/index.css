@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Atkinson Hyperlegible', system-ui, sans-serif;
+    color: #2b2a26;
+    background: #fbf6ec;
+  }
+  body {
+    margin: 0;
+    min-height: 100svh;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(232, 105, 78, 0.05), transparent 40%),
+      radial-gradient(circle at 80% 60%, rgba(61, 139, 139, 0.05), transparent 40%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.17 0 0 0 0 0.16 0 0 0 0 0.15 0 0 0 0 0.05 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  h1, h2, h3 {
+    font-family: 'Caveat Brush', 'Patrick Hand', cursive;
+    color: #2b2a26;
+    letter-spacing: 0.5px;
+  }
+}
+
+@layer components {
+  .card-sketch {
+    @apply bg-cream border-[2.5px] border-ink rounded-2xl shadow-sketch p-6;
+    position: relative;
+  }
+  .card-sketch::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1.5px solid rgba(43, 42, 38, 0.35);
+    border-radius: 0.9rem;
+    pointer-events: none;
+  }
+
+  .btn-sketch {
+    @apply inline-flex items-center justify-center gap-2
+           bg-cream border-[2.5px] border-ink rounded-xl
+           px-4 py-2 font-hand text-lg
+           shadow-sketchSm transition-all duration-150
+           hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none
+           active:translate-x-[2px] active:translate-y-[2px];
+  }
+
+  .pill-sketch {
+    @apply inline-flex items-center px-3 py-1 rounded-full
+           border-[2px] border-ink bg-cream font-hand;
+  }
+}
+
+@layer utilities {
+  .wobble-edge {
+    filter: url(#wobble-filter);
+  }
+}

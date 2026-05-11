@@ -11,6 +11,11 @@ import { LimitBreachWorkflowDemo } from '../components/systems/LimitBreachWorkfl
 import { SchedulingDemo } from '../components/systems/SchedulingDemo'
 import { SettlementDemo } from '../components/systems/SettlementDemo'
 import { CreditCollateralDemo } from '../components/systems/CreditCollateralDemo'
+import { MasterDataDemo } from '../components/systems/MasterDataDemo'
+import { OptionsGreeksDemo } from '../components/systems/OptionsGreeksDemo'
+import { LineageDemo } from '../components/systems/LineageDemo'
+import { RegulatoryReportingDemo } from '../components/systems/RegulatoryReportingDemo'
+import { SystemsTakeawayCards } from '../components/systems/SystemsTakeawayCards'
 
 function FloatingDoodle({
   className,
@@ -91,6 +96,12 @@ export function SystemsPage() {
       </FloatingDoodle>
       <FloatingDoodle className="top-[8800px] right-12 text-5xl text-mustard/40" delay={1}>
         🧾
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[10400px] left-10 text-5xl text-lavender/40" delay={2}>
+        🌀
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[12000px] right-10 text-5xl text-rose/30" delay={1.5}>
+        ⚖️
       </FloatingDoodle>
 
       {/* HERO */}
@@ -531,23 +542,313 @@ export function SystemsPage() {
 
       <ChapterDivider />
 
-      <section className="max-w-3xl mx-auto px-6 py-12 text-center">
-        <div className="font-display text-4xl text-teal mb-4">
-          ✦ five more chapters in flight ✦
+      {/* CHAPTER 11 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={11} label="master data · the silent foundation" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          Who is CP_004, really?
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Identifiers like <strong>CP_004</strong> and{' '}
+            <strong>BOOK_007</strong> have been showing up in every chapter
+            since chapter 2. We've been treating them as if their meaning is
+            obvious. It isn't. Behind every one of them sits a{' '}
+            <strong className="text-teal">master-data record</strong> —
+            legal name, country, parent entity, ultimate parent, rating,
+            agreements in place, watchlist status.
+          </p>
+          <p>
+            And those records have hierarchies. Trade with one subsidiary,
+            default risk rolls up to the parent. Click around:
+          </p>
         </div>
-        <p className="font-body text-lg text-ink/80 max-w-2xl mx-auto leading-relaxed">
-          The final stretch: regulatory reporting (REMIT, EMIR, Dodd-Frank),
-          audit &amp; lineage (proving every number traces back to its
-          inputs), master data management (counterparties, products,
-          calendars), options &amp; exotic instruments, and a clear-eyed
-          takeaway on what ETRM systems do brilliantly versus where they
-          quietly break.
-        </p>
-        <p className="font-hand text-xl text-coral mt-4">
-          jump to{' '}
-          <a href="/" className="underline">page one</a> for the trader's
-          decision view, or scroll back up.
-        </p>
+        <MasterDataDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            A real ETRM has master-data tables for counterparties, products,
+            commodities, locations, calendars, FX rates, holiday schedules,
+            instrument types, and a dozen others. They change rarely but
+            consequentially — a counterparty merger, a new delivery zone, a
+            calendar update — and every dependent table has to react.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 12 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={12} label="options & exotics" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          When the trade model isn't enough.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Most ETRM volume is vanilla forwards and swaps — the model we
+            built in chapter 2. But the interesting trades are{' '}
+            <strong className="text-coral">optional</strong>: European
+            calls, swing contracts, virtual storage, weather derivatives,
+            extendibles, swaptions. They have <em>kinked payoffs</em> —
+            which is what makes them valuable, and what forces the system
+            to track four greeks per position, alongside a 2-D{' '}
+            <strong>vol surface</strong>.
+          </p>
+          <p>
+            Compare a vanilla forward to a vanilla call. Move the strike:
+          </p>
+        </div>
+        <OptionsGreeksDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            Real shops have separate pricing engines per instrument family:
+            Black-Scholes for European, trinomial trees for American,
+            least-squares Monte Carlo for swing, and full term-structure
+            models for stuff like exotic gas storage. Each engine has its
+            own calibration data. Each instrument adds new fields to the
+            trade model. And each is now also a{' '}
+            <em>new lineage path</em> — which sets up the next chapter.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 13 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={13} label="audit & lineage · prove every number" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          Where did that number come from?
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            A regulator asks "reproduce yesterday's firm VaR." A CFO asks
+            "why is today's MTM €200k different from last week's?". An
+            internal auditor asks "show me every trade that contributed to
+            this number."
+          </p>
+          <p>
+            Every one of those questions requires{' '}
+            <strong className="text-teal">lineage</strong>: an explicit
+            graph from any output number back to the inputs that produced
+            it — every trade, every curve point, every config flag, every
+            model commit. Plus an{' '}
+            <strong>immutable history</strong> so the inputs can be
+            re-frozen as they were at the time. Click around the graph and
+            try the rewind:
+          </p>
+        </div>
+        <LineageDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            This is the chapter that looks boring and is the most expensive
+            to retrofit. If the trade store overwrites in place, if the
+            curve snapshots aren't kept, if model code can change without a
+            version tag — you can <em>compute</em> a number but you can't{' '}
+            <em>defend</em> it. Good ETRMs commit to lineage from day one.
+            Less-good ones discover they need it during their first audit.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 14 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={14} label="regulatory reporting · trades for outsiders" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          The trade tells three different stories.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Every trade has to be reported, in the right format, on the
+            right deadline, to the right repository.{' '}
+            <strong className="text-teal">EMIR</strong> (EU derivatives,
+            T+1, ESMA).{' '}
+            <strong className="text-coral">REMIT</strong> (EU wholesale
+            energy, near-real-time, ACER).{' '}
+            <strong className="text-lavender">Dodd-Frank</strong> (US
+            commodity, as-soon-as-practicable, CFTC). Different fields,
+            different identifiers, different lifecycle event triggers.
+          </p>
+          <p>
+            One trade, three reports. Trigger a lifecycle event and watch
+            which fields update:
+          </p>
+        </div>
+        <RegulatoryReportingDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            The reporting module is half mapping logic and half
+            rejection-handling. ESMA rejects on UTI namespace mismatches.
+            ACER rejects on EIC codes. The CFTC's SDR rejects on USI
+            duplicates. Reports get amended; amendments get reported;
+            reconciliation runs daily to make sure the repositories agree
+            with the firm's books.
+          </p>
+          <p>
+            Miss a deadline; pay a fine. Misreport; pay a bigger fine. This
+            is not optional and not negotiable, which is why ETRMs have to
+            be very good at it.
+          </p>
+        </div>
+      </section>
+
+      <Recap
+        chapters="chapters 11–14 · integrity & the outside world"
+        title="the parts that make all of it defensible."
+        points={[
+          '<strong>master data</strong> is the silent foundation: legal entities, products, locations, calendars. without it, "CP_004" means nothing.',
+          'options & exotics need a <strong>vol surface plus four greeks</strong>. every ETRM has at least two pricing engines hiding inside.',
+          '<strong>lineage</strong> is what lets you reproduce any number from a frozen snapshot. retrofit it and it costs millions. build it in from day one.',
+          '<strong>regulatory reporting</strong> is the same trade told three or four ways, in three or four formats, on three or four deadlines. miss it; pay a fine.',
+        ]}
+        next="closing chapter: what ETRMs do brilliantly, what they’re notoriously bad at, and where the whole category is going."
+      />
+
+      <ChapterDivider />
+
+      {/* CHAPTER 15 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={15} label="the honest takeaway" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          What ETRMs do well. What they don't. Where it's going.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            You've now seen the whole stack: trades, positions, curves,
+            MTM, risk, limits, scheduling, settlement, credit, master data,
+            options, lineage, regulatory. Before we close, a clear-eyed
+            pass at what this kind of system is actually good at, what it
+            quietly isn't, and what the next decade looks like.
+          </p>
+        </div>
+        <SystemsTakeawayCards />
+
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-4">
+          <p>
+            None of this is settled. The class of "energy trading and risk
+            management system" is older than most of the people running
+            them, and parts of it are visibly straining against modern
+            trading patterns. The right posture is the same as for LLMs on
+            page one's companion guide:{' '}
+            <strong>curious but not credulous</strong>. Understand the
+            machinery, value the dull parts, and demand better from the new
+            ones.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CLOSING */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight text-center">
+          So what is an ETRM, really?
+        </h2>
+
+        <div className="card-sketch bg-paper/70 mt-8">
+          <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+            <p>In plain terms:</p>
+            <p className="font-hand text-2xl text-teal pl-6 border-l-[3px] border-teal/60">
+              <strong>one record per trade</strong>, valued against{' '}
+              <strong>curves</strong>, aggregated into{' '}
+              <strong>positions</strong>, watched against{' '}
+              <strong>limits</strong>, delivered through{' '}
+              <strong>schedules</strong>, settled via{' '}
+              <strong>invoices</strong>, collateralised against{' '}
+              <strong>counterparties</strong>, reported to{' '}
+              <strong>regulators</strong>, and made defensible by{' '}
+              <strong>lineage</strong>.
+            </p>
+            <p>
+              That's it. That's the whole apparatus. No magic, no quants in
+              a tower, no genius forecasts — just an extraordinarily large
+              amount of unglamorous, time-pressured, audited plumbing.
+            </p>
+            <p>
+              And yet:{' '}
+              <em>
+                without that plumbing none of the cleverness on{' '}
+                <a href="/" className="text-coral underline">
+                  page one
+                </a>{' '}
+                ever happens
+              </em>
+              . Every "decide what to do today" question on a real trading
+              floor sits on top of an ETRM doing its boring, essential
+              work.
+            </p>
+            <ul className="space-y-2 pl-6 mt-4">
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>One record per trade.</strong> The whole
+                architectural commitment. Everything else is a derived
+                view.
+              </li>
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>The forward curve is the input under everything.</strong>{' '}
+                MTM, VaR, limits, P&amp;L explain — they all hang on it.
+              </li>
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>A limit is a workflow, not a gauge.</strong>{' '}
+                Breaches are objects routed for approval, audit-logged
+                forever.
+              </li>
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>Physical delivery is real.</strong> Schedules,
+                nominations, imbalance — most ETRM cost is in keeping the
+                wires happy.
+              </li>
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>Credit risk is a daily loop.</strong> PFE, margin
+                call, collateral, dispute. Repeat per counterparty,
+                forever.
+              </li>
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>Lineage is non-negotiable.</strong> Every number
+                traces back to every input that produced it.
+              </li>
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>Reporting is the customer.</strong> The regulator
+                is a consumer of the system; the system is shaped to
+                serve them.
+              </li>
+              <li>
+                <span className="font-hand text-teal text-xl">✦</span>{' '}
+                <strong>Customisation debt is the real boss.</strong>{' '}
+                Every shop's "standard" ETRM is uniquely theirs by year
+                three. Treat the vendor product as a starting point, not
+                an answer.
+              </li>
+            </ul>
+            <p className="font-hand text-2xl text-ink mt-6">
+              You now know roughly what's running behind every energy
+              trader's morning meeting.{' '}
+              <span className="text-teal">
+                The clever decisions happen on top of an enormous amount of
+                boring, beautiful plumbing.
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className="text-center mt-12 font-display text-4xl text-ink/40">
+          ✦ ✦ ✦
+        </div>
+        <div className="text-center mt-4 font-hand text-ink/60">
+          thanks for scrolling. now go check out{' '}
+          <a href="/" className="underline text-coral">
+            page one
+          </a>{' '}
+          for the trader's view.
+        </div>
       </section>
 
       <footer className="max-w-3xl mx-auto px-6 pb-16 pt-8 text-center font-hand text-ink/40 text-sm">

@@ -6,6 +6,11 @@ import { TradeCaptureDemo } from '../components/systems/TradeCaptureDemo'
 import { PositionPivotDemo } from '../components/systems/PositionPivotDemo'
 import { ForwardCurveBuildDemo } from '../components/systems/ForwardCurveBuildDemo'
 import { PnLAttributionDemo } from '../components/systems/PnLAttributionDemo'
+import { RiskCycleDemo } from '../components/systems/RiskCycleDemo'
+import { LimitBreachWorkflowDemo } from '../components/systems/LimitBreachWorkflowDemo'
+import { SchedulingDemo } from '../components/systems/SchedulingDemo'
+import { SettlementDemo } from '../components/systems/SettlementDemo'
+import { CreditCollateralDemo } from '../components/systems/CreditCollateralDemo'
 
 function FloatingDoodle({
   className,
@@ -77,6 +82,15 @@ export function SystemsPage() {
       </FloatingDoodle>
       <FloatingDoodle className="top-[3700px] left-10 text-5xl text-sage/40" delay={2}>
         💷
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[5400px] right-8 text-5xl text-rose/30" delay={1.5}>
+        ⚠️
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[7000px] left-8 text-5xl text-teal/30" delay={2.5}>
+        🚚
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[8800px] right-12 text-5xl text-mustard/40" delay={1}>
+        🧾
       </FloatingDoodle>
 
       {/* HERO */}
@@ -311,24 +325,228 @@ export function SystemsPage() {
 
       <ChapterDivider />
 
-      {/* PLACEHOLDER FOR FURTHER CHAPTERS */}
+      {/* CHAPTER 6 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={6} label="risk, computed at scale" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          The 6pm-to-6am risk cycle.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Page one explained VaR and CVaR conceptually. The system-side
+            version is a <strong className="text-teal">batch job</strong>: at
+            roughly 6pm every business day, the ETRM grabs a snapshot of
+            every position and every curve, fires up a Monte Carlo engine,
+            simulates thousands of P&amp;L paths, aggregates the loss tails
+            up the book hierarchy, and publishes the result before traders
+            return the next morning.
+          </p>
+          <p>
+            Press the button and watch the four-stage pipeline run:
+          </p>
+        </div>
+        <RiskCycleDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            Notice the firm-level VaR is{' '}
+            <em>less than</em> the sum of the desks, which is less than the
+            sum of the books. That's{' '}
+            <strong>diversification benefit</strong>: a long power desk and a
+            short gas desk partially cancel. A real ETRM tracks how much of
+            firm risk is "structural" (would survive any reshuffle) versus
+            "concentration" (one big book carrying the rest).
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 7 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={7} label="limits & the breach workflow" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          A limit is a workflow, not a number.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            A limit on its own is just configuration. What makes it real is
+            the <strong className="text-teal">workflow</strong> attached:
+            every new trade is checked against the relevant limits; every
+            EOD recompute is checked too; any breach becomes an{' '}
+            <em>object</em> in a queue, routed to the right approver,
+            tracked through to a definitive outcome (approved / exception /
+            forced reduce / closed), and audit-logged forever.
+          </p>
+          <p>
+            Push the scale slider, watch limits go red, and resolve the
+            breaches that pile up:
+          </p>
+        </div>
+        <LimitBreachWorkflowDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            A real shop has hundreds of limits — by book, commodity, tenor,
+            counterparty, stress scenario, region — and dozens of distinct
+            approval paths. The unglamorous truth: most of an ETRM's "risk
+            management" value is in this workflow plumbing, not in the
+            math.
+          </p>
+        </div>
+      </section>
+
+      <Recap
+        chapters="chapters 6–7 · risk you can act on"
+        title="from numbers to enforcement."
+        points={[
+          'the <strong>risk cycle</strong> is a nightly batch. it produces the firm-, desk-, and book-level VaR/CVaR/stress that everything else hangs on.',
+          '<strong>diversification benefit</strong> is real: firm risk &lt; sum of desks &lt; sum of books. tracking how much of risk is structural vs concentration is its own discipline.',
+          'a <strong>limit</strong> is a workflow with an audit trail, not a gauge. breaches are objects routed for approval. "approved" is a database row.',
+        ]}
+        next="now: the physical world. you sold MWh. somebody actually has to deliver them."
+      />
+
+      <ChapterDivider />
+
+      {/* CHAPTER 8 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={8} label="scheduling & nominations" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          You sold electricity. Now actually deliver it.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            The chapter nobody outside physical desks knows exists. Every MWh
+            you've sold for tomorrow has to be{' '}
+            <strong className="text-teal">told to the grid</strong> — a
+            nomination submitted to the TSO (transmission system operator)
+            per hour, in the right format, before the gate-closure cutoff.
+            Same idea for gas: the pipeline operator needs a nomination per
+            day per delivery point.
+          </p>
+          <p>
+            Get the profile wrong and you pay an{' '}
+            <strong>imbalance settlement</strong> on every misnominated MWh.
+            Miss the cutoff entirely and the grid charges you for{' '}
+            <em>every</em> delivered MWh:
+          </p>
+        </div>
+        <SchedulingDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            This is where the ETRM's "position" view meets the wires of the
+            actual electricity grid. The system has to translate your trade
+            book into hourly delivery schedules, push them to ten different
+            TSO formats, retry on failures, and reconcile against{' '}
+            <em>metered actuals</em> the next day. It's the part of an ETRM
+            that's the least about finance and the most about logistics.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 9 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={9} label="settlement & invoicing" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          Money actually has to move.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            After delivery, the ETRM produces an{' '}
+            <strong className="text-teal">invoice</strong> per counterparty
+            per period: contracted volume × contracted price × the right
+            index, with adjustments for actual delivered MWh. It sends it.
+            The counterparty sends one too — for the same flow, but from{' '}
+            <em>their</em> books.
+          </p>
+          <p>
+            Then the matching begins. Lines that agree settle. Lines that
+            disagree go to a dispute workflow — sometimes for weeks. Try a
+            month's invoice match:
+          </p>
+        </div>
+        <SettlementDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            Most real disputes are dull —{' '}
+            <em>wrong index, wrong day, off-by-one volume</em> — and most
+            resolve in an email exchange and a credit note. A few don't and
+            end up in lawyers' offices. The system's job is to make sure
+            every disputed line is{' '}
+            <strong>tracked, aging, and accounted for</strong> until it
+            closes.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 10 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={10} label="credit & collateral, ongoing" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          Counterparty risk is a process, not a number.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            On page one, counterparty PFE was a snapshot. In a real ETRM
+            it's a{' '}
+            <strong className="text-teal">live timeline</strong>: every new
+            trade with a counterparty nets into their potential future
+            exposure under the master agreement (typically an ISDA with a
+            Credit Support Annex). When that exposure crosses an agreed{' '}
+            <strong>threshold</strong>, the system auto-issues a{' '}
+            <strong className="text-coral">margin call</strong>. The
+            counterparty posts collateral — or doesn't.
+          </p>
+          <p>
+            Thirty days, one counterparty, one CSA. Watch what happens when
+            the book grows and they delay or dispute:
+          </p>
+        </div>
+        <CreditCollateralDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            Real credit teams worry less about the headline PFE and more
+            about the{' '}
+            <em>shaded area</em> — the integrated unsecured exposure over
+            time. Every day a counterparty is over-threshold and
+            under-collateralised is a day you're carrying their default risk
+            for free.
+          </p>
+        </div>
+      </section>
+
+      <Recap
+        chapters="chapters 8–10 · the operational layer"
+        title="physical, financial, ongoing."
+        points={[
+          '<strong>scheduling & nominations</strong> turn your trade book into hourly delivery instructions to the grid. miss the cutoff, pay the imbalance.',
+          '<strong>settlement & invoicing</strong> is half the operational cost of running an ETRM — generating invoices, matching against counterparties, and chasing disputes for weeks.',
+          '<strong>credit & collateral</strong> is a daily loop. PFE moves, threshold crossed, margin call sent, collateral posted (or not). watch the unsecured-area integral.',
+        ]}
+        next="next chapters (coming): regulatory reporting (REMIT/EMIR), audit & lineage, master data, exotic instruments, and an honest takeaway."
+      />
+
+      <ChapterDivider />
+
       <section className="max-w-3xl mx-auto px-6 py-12 text-center">
         <div className="font-display text-4xl text-teal mb-4">
-          ✦ more chapters in flight ✦
+          ✦ five more chapters in flight ✦
         </div>
         <p className="font-body text-lg text-ink/80 max-w-2xl mx-auto leading-relaxed">
-          The next ten chapters are about what gets built on top of this
-          backbone: risk &amp; limit checking,{' '}
-          <em>scheduling &amp; nominations</em> (the physical side),{' '}
-          <em>settlement &amp; invoicing</em>, credit &amp; collateral,{' '}
-          regulatory reporting, audit &amp; lineage, master data management,
-          and an honest takeaway on what ETRM systems do brilliantly versus
-          where they break.
+          The final stretch: regulatory reporting (REMIT, EMIR, Dodd-Frank),
+          audit &amp; lineage (proving every number traces back to its
+          inputs), master data management (counterparties, products,
+          calendars), options &amp; exotic instruments, and a clear-eyed
+          takeaway on what ETRM systems do brilliantly versus where they
+          quietly break.
         </p>
         <p className="font-hand text-xl text-coral mt-4">
-          for now: scroll back up, or jump to{' '}
+          jump to{' '}
           <a href="/" className="underline">page one</a> for the trader's
-          view.
+          decision view, or scroll back up.
         </p>
       </section>
 

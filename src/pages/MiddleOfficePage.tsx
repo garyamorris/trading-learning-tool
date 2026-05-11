@@ -6,6 +6,16 @@ import { TradeVerificationDemo } from '../components/middle/TradeVerificationDem
 import { IPVDemo } from '../components/middle/IPVDemo'
 import { ReservesWaterfallDemo } from '../components/middle/ReservesWaterfallDemo'
 import { ExceptionDashboardDemo } from '../components/middle/ExceptionDashboardDemo'
+import { PositionReconDemo } from '../components/middle/PositionReconDemo'
+import { ModelValidationDemo } from '../components/middle/ModelValidationDemo'
+import { PnLExplainInAngerDemo } from '../components/middle/PnLExplainInAngerDemo'
+import { RegulatoryCapitalDemo } from '../components/middle/RegulatoryCapitalDemo'
+import { RiskReportingDemo } from '../components/middle/RiskReportingDemo'
+import { ThreeLinesOfDefenceDemo } from '../components/middle/ThreeLinesOfDefenceDemo'
+import { EscalationPathsDemo } from '../components/middle/EscalationPathsDemo'
+import { PoliticalRealityDemo } from '../components/middle/PoliticalRealityDemo'
+import { WhereItsGoingDemo } from '../components/middle/WhereItsGoingDemo'
+import { MiddleOfficeTakeawayCards } from '../components/middle/MiddleOfficeTakeawayCards'
 
 function FloatingDoodle({
   className,
@@ -80,6 +90,21 @@ export function MiddleOfficePage() {
       </FloatingDoodle>
       <FloatingDoodle className="top-[5500px] right-8 text-5xl text-sage/40" delay={1.5}>
         ✓
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[6800px] left-8 text-5xl text-teal/30" delay={2}>
+        🤝
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[8200px] right-12 text-5xl text-mustard/40" delay={1}>
+        🏛️
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[9600px] left-10 text-5xl text-lavender/40" delay={3}>
+        🪜
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[11000px] right-10 text-5xl text-rose/30" delay={2}>
+        🎭
+      </FloatingDoodle>
+      <FloatingDoodle className="top-[12600px] left-12 text-5xl text-coral/30" delay={1.5}>
+        🌌
       </FloatingDoodle>
 
       {/* HERO */}
@@ -336,22 +361,438 @@ export function MiddleOfficePage() {
 
       <ChapterDivider />
 
-      <section className="max-w-3xl mx-auto px-6 py-12 text-center">
-        <div className="font-display text-4xl text-rose mb-4">
-          ✦ ten more chapters in flight ✦
+      {/* CHAPTER 6 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={6} label="position reconciliation" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          The same position lives in four systems.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Chapter 2 verified individual trades. This chapter zooms out:
+            the same{' '}
+            <em>position</em> (an aggregate of trades) lives independently
+            in the front-office ETRM, the middle-office shadow system, the
+            back-office settlement system, and the counterparty&apos;s
+            books. None of these talk to each other directly — and over
+            time they drift apart.
+          </p>
+          <p>
+            The morning recon job is what catches the drift before it
+            becomes a problem:
+          </p>
         </div>
-        <p className="font-body text-lg text-ink/80 max-w-2xl mx-auto leading-relaxed">
-          The remaining chapters cover model validation, regulatory capital
-          calculations, reconciliation against the back office, control
-          frameworks (three lines of defence), escalation up to the audit
-          committee, the political reality of trader-vs-MO disputes, the
-          automation/regtech shift, and an honest takeaway.
-        </p>
-        <p className="font-hand text-xl text-coral mt-4">
-          for now: jump to{' '}
-          <a href="/" className="underline">trader decisions</a> or the{' '}
-          <a href="/systems" className="underline">ETRM systems</a> guide.
-        </p>
+        <PositionReconDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            Most breaks are mundane (batch timing, mapping issues, late
+            amendments). A handful are not — and those are why this dull
+            morning ritual exists.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 7 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={7} label="model validation" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          The MO doesn&apos;t just re-mark prices. It re-implements models.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            The model risk reserve from chapter 4 came from{' '}
+            <em>somewhere</em>. This is the somewhere. The MO maintains a{' '}
+            <strong className="text-rose">parallel implementation</strong>{' '}
+            of every pricing model the trader uses, calibrates it
+            independently, and compares prices instrument-by-instrument.
+          </p>
+          <p>
+            Three kinds of disagreement come out: noise, calibration, and
+            structural. Each requires a different response:
+          </p>
+        </div>
+        <ModelValidationDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            Structural divergences are the expensive ones. They mean the
+            trader&apos;s model is{' '}
+            <em>actually different</em> from the MO&apos;s — and the firm
+            has to pick which one is right (or reserve against the
+            uncertainty). Model Risk committees exist for exactly these
+            conversations.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 8 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={8} label="P&L explain in anger" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          When the residual blows up.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Page 2 chapter 5 showed the daily P&amp;L attribution
+            waterfall when everything is clean — residual under €5k. This
+            chapter is the broken version: residual is{' '}
+            <strong className="text-coral">€280k</strong>. Tomorrow&apos;s
+            P&amp;L can&apos;t go out the door until it&apos;s solved.
+          </p>
+          <p>
+            Find the leaks:
+          </p>
+        </div>
+        <PnLExplainInAngerDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            The middle office is the first responder for these. Often the
+            answer is mundane (a feed failed, a cancel didn&apos;t fire,
+            an amendment missed a batch). Occasionally the answer is
+            uncomfortable. Either way, the explanation has to be on paper
+            before the firm publishes the next day&apos;s number.
+          </p>
+        </div>
+      </section>
+
+      <Recap
+        chapters="chapters 6–8 · the second layer of checks"
+        title="recon, models, broken explains."
+        points={[
+          '<strong>position reconciliation</strong> catches drift between front, middle, back, and counterparty before it becomes a structural problem.',
+          '<strong>model validation</strong> is an independent re-implementation of the trader\'s pricers. structural disagreements drive the model risk reserve.',
+          'when the daily <strong>P&L attribution</strong> residual blows up, the MO triages it: stale feed, double-book, missing trade, CVA recalc. it has to close before the next day publishes.',
+        ]}
+        next="now: the calculations and reports the middle office produces for the rest of the firm and the regulator."
+      />
+
+      <ChapterDivider />
+
+      {/* CHAPTER 9 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={9} label="regulatory capital" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          The denominator the trader doesn&apos;t get to choose.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Regulators don&apos;t just want to{' '}
+            <em>see</em> the firm&apos;s risk — they want the firm to{' '}
+            <em>hold capital</em> against it. Risk-weighted assets (RWA)
+            roll up by position; required capital is roughly 8% of RWA.
+            The firm&apos;s return on equity is{' '}
+            <strong>P&amp;L ÷ required capital</strong>. The MO computes
+            both numbers.
+          </p>
+          <p>
+            Add a new trade and watch the cascade:
+          </p>
+        </div>
+        <RegulatoryCapitalDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            This is why MO methodology disputes get heated. The trader
+            controls the numerator (P&amp;L), but the MO controls the
+            denominator (capital). A tweak to a risk-weight calculation
+            can wipe out a desk&apos;s entire bonus pool — or unlock one.
+            Boards pay attention.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 10 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={10} label="risk reporting up the chain" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          Same numbers, four audiences.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            The trader sees every position. The desk head sees a desk-page
+            summary. The risk committee sees firm trends across 12 weeks.
+            The board sees three slides. All four reports start from the
+            same underlying data — but each is{' '}
+            <strong className="text-rose">shaped to what its audience can act on</strong>.
+            That shaping is the MO&apos;s editorial pen.
+          </p>
+        </div>
+        <RiskReportingDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            What gets summarised, what gets buried, what gets escalated:
+            those choices shape how leadership thinks about the firm&apos;s
+            risk. Every MO has at some point picked what number to put on
+            the board pack&apos;s lead slide. The pen is heavy.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 11 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={11} label="three lines of defence" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          Who audits the auditors.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Every regulated firm runs some version of a three-line
+            control model.{' '}
+            <strong className="text-coral">First line</strong>: the people
+            who take the risk own their daily controls. {' '}
+            <strong className="text-teal">Second line</strong>: independent
+            challenge — the MO sits here, alongside risk, compliance, and
+            finance control. {' '}
+            <strong className="text-lavender">Third line</strong>: internal
+            audit, independent of <em>both</em> previous lines, reporting
+            to the audit committee of the board.
+          </p>
+        </div>
+        <ThreeLinesOfDefenceDemo />
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 12 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={12} label="escalation paths" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          When it fires, who hears about it — in what order?
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Every exception type has a{' '}
+            <strong className="text-rose">pre-agreed escalation tree</strong>:
+            who calls who, by when, with what SLA, what evidence required.
+            The trees aren&apos;t improvised — they&apos;re written,
+            tested, and reviewed annually.
+          </p>
+          <p>
+            Walk through four real ones:
+          </p>
+        </div>
+        <EscalationPathsDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            The discipline isn&apos;t in <em>having</em> a path. It&apos;s
+            in following it every single time — even when the trader is
+            a friend, even when it&apos;s 6pm on Friday, even when the
+            evidence is thin. The audit trail is the firm&apos;s defence
+            when the same exception ends up in front of the regulator
+            three years later.
+          </p>
+        </div>
+      </section>
+
+      <Recap
+        chapters="chapters 9–12 · what MO produces for the rest of the firm"
+        title="capital, reports, lines, paths."
+        points={[
+          '<strong>regulatory capital</strong> ties the trader\'s P&L to a denominator the MO controls. methodology disputes are bonus disputes in disguise.',
+          '<strong>risk reporting</strong> shapes what each level (trader, desk head, risk committee, board) sees about the firm\'s risk. the MO\'s editorial pen is heavy.',
+          'the <strong>three lines of defence</strong> — front office, MO/risk/compliance, internal audit — give regulators a structural answer to "who watches whom".',
+          '<strong>escalation paths</strong> are written and tested. following them every time is the discipline; not following them shows up in audit reports.',
+        ]}
+        next="last three chapters: the political reality, where this function is going, and an honest takeaway."
+      />
+
+      <ChapterDivider />
+
+      {/* CHAPTER 13 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={13} label="the political reality" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          The bit that isn&apos;t in the textbook.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            Every diagram in this guide so far has been clean. The
+            reality on a trading floor is{' '}
+            <strong className="text-rose">political</strong>. Traders are
+            charismatic, well-paid, structurally important to the firm,
+            and have strong incentives. The MO disagrees with them on
+            numbers that drive their bonus.
+          </p>
+          <p>
+            Pick an approach and see how it plays out — today, and six
+            months later:
+          </p>
+        </div>
+        <PoliticalRealityDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            Good middle offices don&apos;t pick &quot;hold the line&quot;
+            every time. They pick the right tool for the right break, and
+            build a reputation for{' '}
+            <strong>both fairness and spine</strong>. That reputation is
+            what makes traders not even try the next pressure tactic.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 14 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={14} label="where it&apos;s going" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          Traditional → emerging → aspirational.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            The traditional middle office is daily, batch-based, and
+            heavily human. The emerging one is intraday, API-driven, and
+            ML-augmented. The aspirational one is real-time, predictive,
+            and built around shared ledgers. Each step trades{' '}
+            <strong>speed and automation</strong> for{' '}
+            <strong>auditability and human judgment</strong>.
+          </p>
+        </div>
+        <WhereItsGoingDemo />
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90 mt-8">
+          <p>
+            The function isn&apos;t disappearing — but the work is moving
+            up the stack. Less mechanical reconciling; more model
+            oversight, behavioural-pattern detection, and edge-case
+            judgment. The headcount might shrink; the skill bar goes up.
+          </p>
+        </div>
+      </section>
+
+      <ChapterDivider />
+
+      {/* CHAPTER 15 */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <ChapterBadge n={15} label="the honest takeaway" />
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight">
+          What it does well. What it doesn&apos;t. Where it&apos;s going.
+        </h2>
+        <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+          <p>
+            You&apos;ve walked through the whole function: independence,
+            verification, IPV, reserves, exception monitoring, recon,
+            model validation, P&amp;L explain, regulatory capital, risk
+            reporting, three lines of defence, escalation paths, political
+            reality, and the technology trajectory. Time to close
+            cleanly.
+          </p>
+        </div>
+        <MiddleOfficeTakeawayCards />
+      </section>
+
+      <ChapterDivider />
+
+      {/* CLOSING */}
+      <section className="max-w-3xl mx-auto px-6 py-16">
+        <h2 className="text-5xl md:text-6xl mb-6 leading-tight text-center">
+          So what is the middle office, really?
+        </h2>
+
+        <div className="card-sketch bg-paper/70 mt-8">
+          <div className="font-body text-lg leading-relaxed space-y-4 text-ink/90">
+            <p>In plain terms:</p>
+            <p className="font-hand text-2xl text-rose pl-6 border-l-[3px] border-rose/60">
+              the firm&apos;s <strong>independent verification function</strong>{' '}
+              — different reporting line, different data, different
+              compensation — whose entire job is to be skeptical of the
+              traders&apos; numbers in writing, every day.
+            </p>
+            <p>
+              You can describe what it does as a pipeline:{' '}
+              <strong>verify trades</strong> against external evidence,{' '}
+              <strong>re-mark positions</strong> independently,{' '}
+              <strong>compute reserves</strong> the trader doesn&apos;t
+              get to set, <strong>run controls</strong> at end of day,{' '}
+              <strong>reconcile positions</strong> across four systems,{' '}
+              <strong>re-implement models</strong> to validate them,{' '}
+              <strong>explain P&amp;L breaks</strong> when the residual
+              blows up, <strong>calculate capital</strong> the regulator
+              demands, <strong>report up</strong> to four different
+              audiences, <strong>follow escalation paths</strong> every
+              time, and <strong>hold the line</strong> when the trader
+              pushes back.
+            </p>
+            <p>
+              The function exists because every famous trading scandal of
+              the last thirty years happened in shops where one or more
+              of those activities was inadequate. Barings, SocGen, UBS,
+              JPMorgan — same pattern, different decades.
+            </p>
+            <ul className="space-y-2 pl-6 mt-4">
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>Independence is the whole product.</strong>{' '}
+                Different reporting line, different data, different
+                compensation. Anything that compromises it compromises
+                the function.
+              </li>
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>A trade isn&apos;t real until it&apos;s
+                verified.</strong> Front office &quot;trades&quot;; MO
+                makes them real by reconciling against external evidence.
+              </li>
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>Two marks, always.</strong> Trader&apos;s and IPV.
+                The difference is documented, classified, and acted on.
+              </li>
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>Fair value ≠ official P&amp;L.</strong> Reserves
+                live in between. The MO owns the methodology.
+              </li>
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>Exceptions don&apos;t close themselves.</strong>{' '}
+                Every ticket has an owner, an age, and a path to
+                resolution.
+              </li>
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>The denominator matters.</strong> Capital
+                methodology decides bonus pools. Boards pay attention.
+              </li>
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>Escalation paths are written and tested.</strong>{' '}
+                Following them every time is the discipline that audits
+                catch.
+              </li>
+              <li>
+                <span className="font-hand text-rose text-xl">✦</span>{' '}
+                <strong>Hold the line — selectively.</strong> A mature
+                MO picks the right tool for the right break. Reputation
+                is what makes traders not even try.
+              </li>
+            </ul>
+            <p className="font-hand text-2xl text-ink mt-6">
+              You now know roughly what happens between the trader who
+              wants to be optimistic and the back office that processes
+              whatever it&apos;s given.{' '}
+              <span className="text-rose">
+                The independent eye is what keeps the rest of the system
+                honest.
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className="text-center mt-12 font-display text-4xl text-ink/40">
+          ✦ ✦ ✦
+        </div>
+        <div className="text-center mt-4 font-hand text-ink/60">
+          thanks for scrolling. that was the whole three-guide set —{' '}
+          <a href="/" className="underline text-coral">trader decisions</a>,{' '}
+          <a href="/systems" className="underline text-coral">ETRM systems</a>,
+          and the middle office.
+        </div>
       </section>
 
       <footer className="max-w-3xl mx-auto px-6 pb-16 pt-8 text-center font-hand text-ink/40 text-sm">
